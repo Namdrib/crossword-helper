@@ -59,29 +59,28 @@ class WordUtils:
             length = len(word)
 
         # Note: sorted returns a list
+        # TODO: make me more performant
         return sorted({''.join(x) for x in permutations(word.lower(), length) if self.is_dict_word(''.join(x))})
 
-    def get_substrings_of(self, word: str, length: int = None) -> list:
+    def get_substrings_of(self, word: str, length: int) -> list:
         """
         Generate a list of substrings of the words contained in `word`
 
         :param word: The word to check for substrings
         :type word: str
-        :param length: The desired length of substring to check for, defaults to None
-        :type length: int, optional
+        :param length: The desired length of substring to check for
+        :type length: int
         :return: All substrings of `word` that are dictionary words
         :rtype: list
         """
         # If the length is specified, use it, otherwise cap it to the length of the word
-        if length:
-            length = min(length, len(word))
-        else:
-            length = len(word)
+        length = min(length, len(word))
 
         out = set()
-        for i in range(0, len(word) - length):
+        for i in range(0, len(word) - length + 1):
             substring: str = word[i:i+length]
             if self.is_dict_word(substring):
-                out.insert(word)
+                out.add(substring)
+
         # Note: sorted returns a list
         return sorted(out)

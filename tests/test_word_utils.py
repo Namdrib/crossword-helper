@@ -35,27 +35,65 @@ class TestWordUtils(unittest.TestCase):
     def test_get_anagrams_of_default_length(self):
         word: str = 'silent'
 
-        word_utils = WordUtils()
-
-        anagrams: set = word_utils.get_anagrams_of(word)
+        # A non-exhaustive sample of words that may be formed out of `word`
         expected_words: set = {'enlist', 'inlets', 'listen', 'silent', 'tinsel'}
+
+        word_utils = WordUtils()
+        anagrams: set = word_utils.get_anagrams_of(word)
 
         self.assertEqual(sorted(anagrams), anagrams)
         for expected_word in expected_words:
             with self.subTest(word=expected_word):
                 self.assertIn(expected_word, anagrams)
 
+        self.assertTrue(all(len(x) == len(word) for x in anagrams))
+
+    def test_get_anagrams_of_length_too_long(self):
+        word: str = 'silent'
+        word_length: int = len(word) + 5
+
+        # A non-exhaustive sample of words that may be formed out of `word`
+        expected_words: set = {'enlist', 'inlets', 'listen', 'silent', 'tinsel'}
+
+        word_utils = WordUtils()
+        anagrams: set = word_utils.get_anagrams_of(word)
+
+        self.assertEqual(sorted(anagrams), anagrams)
+        for expected_word in expected_words:
+            with self.subTest(word=expected_word):
+                self.assertIn(expected_word, anagrams)
+
+        self.assertTrue(all(len(x) == len(word) for x in anagrams))
 
     def test_get_anagrams_of_fixed_length(self):
         word: str = 'silent'
+        word_length: int = 4
+
+        # A non-exhaustive sample of words that may be formed out of `word`
+        expected_words: set = {'isle', 'lens', 'lent', 'slit', 'tens', 'tile'}
 
         word_utils = WordUtils()
-
-        anagrams: set = word_utils.get_anagrams_of(word, 4)
-        # A non-exhaustive list of words that may be formed out of `word`
-        expected_words: set = {'isle', 'lens', 'lent', 'slit', 'tens', 'tile'}
+        anagrams: set = word_utils.get_anagrams_of(word, word_length)
 
         self.assertEqual(sorted(anagrams), anagrams)
         for expected_word in expected_words:
             with self.subTest(word=expected_word):
                 self.assertIn(expected_word, anagrams)
+
+        self.assertTrue(all(len(x) == word_length for x in anagrams))
+
+    def test_get_substrings_of(self):
+        word: str = 'airspaces'
+        word_length: int = 4
+
+        expected_words: set = {'airs', 'pace', 'aces'}
+
+        word_utils = WordUtils()
+        substrings: list = word_utils.get_substrings_of(word, word_length)
+
+        self.assertEqual(sorted(substrings), substrings)
+        for expected_word in expected_words:
+            with self.subTest(word=expected_word):
+                self.assertIn(expected_word, substrings)
+
+        self.assertTrue(all(len(x) == word_length for x in substrings))
