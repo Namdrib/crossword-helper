@@ -84,3 +84,7 @@ class WordUtils:
 
         # Note: sorted returns a list
         return sorted(out)
+
+    def get_words_matching_pattern(self, pattern: str) -> list:
+        r = re.compile(pattern)
+        return sorted({x for x in self.words if r.fullmatch(x)})

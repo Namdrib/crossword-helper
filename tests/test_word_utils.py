@@ -97,3 +97,18 @@ class TestWordUtils(unittest.TestCase):
                 self.assertIn(expected_word, substrings)
 
         self.assertTrue(all(len(x) == word_length for x in substrings))
+
+    def test_get_words_matching_pattern(self):
+        pattern: str = 'a..y'
+
+        expected_words: set = {'airy', 'ally', 'army', 'awry'}
+
+        word_utils = WordUtils()
+        matches: list = word_utils.get_words_matching_pattern(pattern)
+
+        self.assertEqual(sorted(matches), matches)
+        for expected_word in expected_words:
+            with self.subTest(word=expected_word):
+                self.assertIn(expected_word, matches)
+
+        self.assertTrue(all(len(x) == len(pattern) for x in matches))
